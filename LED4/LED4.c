@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <avr/io.h>
+#include <avr/sleep.h>
 #include <avr/interrupt.h>
 
 //#define __DEBUG__
@@ -54,13 +55,10 @@ int main(void)
   // Endless loop.
   for(;1==1;) {
 #ifdef __DEBUG__
-    debug(3);
+    debug(8);
 #endif
-    // waiting some time
-    _delay_ms(1);
-    // call next_step (disabled, as next_step is now called by timer0 
-    // interrupt).
-    //next_step();
+    // Set controller into sleep mode (takes not as much power).
+    sleep_mode();
   }
 
   // finish process.
@@ -77,10 +75,15 @@ void init(void) {
 #ifdef __DEBUG__
   debug(1);
 #endif
+  // Now enable sleep mode
+  sleep_enable();
+#ifdef __DEBUG__
+  debug(2);
+#endif
   // Initialize Timer
   init_timer();
 #ifdef __DEBUG__
-  debug(2);
+  debug(3);
 #endif
 }
 
