@@ -3,6 +3,9 @@ I use Atmel processors, for more information see http://www.atmel.com/.
 
 Here are my projects:
 
+  FootControl:
+    Creating a Midi Foot Controller.
+
   LED4:
     24 bit LED chaser. I use this one, when i meet somewhere with
     peoples, and it's hard to find each other because of many other
