@@ -19,10 +19,10 @@ void init(void);
 void init_ports(void);
 void init_timer(void);
 void next_step(void);
-void out(int);
-int decode(int);
+void out(int8_t);
+int8_t decode(int8_t);
 #ifdef __DEBUG
-void debug(int);
+void debug(int8_t);
 #endif
 
 // LED-Counter defined globally
@@ -137,7 +137,7 @@ void next_step(void) {
 /*
  * Setting the output depending on the value
  */
-void out(int current) {
+void out(int8_t current) {
   // Perhaps, there's a more neat way to do this? Any ideas?
   if(current < 8) {
     // now the output goes to port A, set all other ports off (high)
@@ -164,11 +164,11 @@ void out(int current) {
 /*
  * This just makes 2 ^ in
  */
-int decode(int in) {
+int8_t decode(int8_t in) {
   // First i used math.h, but this really just biggened up the hex to 4k.
   // I think, this is the easiest and fastest way. If you have any
   // suggestion, please contribute.
-  int out = 0;
+  int8_t out = 0;
   switch(in & 0x07) {
     case 0: out = 1;   break;
     case 1: out = 2;   break;
@@ -189,8 +189,8 @@ int decode(int in) {
  * hardware debugging possibility to find out, what's happening during
  * the programm.
  */
-void debug(int code) {
-  int before = PORTD;
+void debug(int8_t code) {
+  int8_t before = PORTD;
   PORTD = 0x00;
   _delay_ms(100);
   PORTD = code;
