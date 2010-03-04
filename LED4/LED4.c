@@ -20,7 +20,7 @@ void init_ports(void);
 void init_timer(void);
 void next_step(void);
 void out(int8_t);
-int8_t decode(int8_t);
+int8_t decode[int8_t];
 #ifdef __DEBUG
 void debug(int8_t);
 #endif
@@ -142,19 +142,19 @@ void out(int8_t current) {
   if(current < 8) {
     // now the output goes to port A, set all other ports off (high)
     PORTB = PORTC = PORTD = 0xff;
-    PORTA = 255 ^ decode(current & 0x07);
+    PORTA = 255 ^ decode[current & 0x07];
   } else if (current < 16) {
     // now the output goes to port B, set all other ports off (high)
     PORTA = PORTC = PORTD = 0xff;
-    PORTB = 255 ^ decode(current & 0x07);
+    PORTB = 255 ^ decode[current & 0x07];
   } else if (current < 24) {
     // now the output goes to port C, set all other ports off (high)
     PORTA = PORTB = PORTD = 0xff;
-    PORTC = 255 ^ decode(current & 0x07);
+    PORTC = 255 ^ decode[current & 0x07];
   } else if (current < 32) {
     // now the output goes to port D, set all other ports off (high)
     PORTA = PORTB = PORTC = 0xff;
-    PORTD = 255 ^ decode(current & 0x07);
+    PORTD = 255 ^ decode[current & 0x07];
   } else {
     // This should not happen, so light all LEDs
     PORTA = PORTB = PORTC = PORTD = 0x00;
@@ -162,25 +162,9 @@ void out(int8_t current) {
 }
 
 /*
- * This just makes 2 ^ in
+ * This just makes 2 ^ as matching array
  */
-int8_t decode(int8_t in) {
-  // First i used math.h, but this really just biggened up the hex to 4k.
-  // I think, this is the easiest and fastest way. If you have any
-  // suggestion, please contribute.
-  int8_t out = 0;
-  switch(in & 0x07) {
-    case 0: out = 1;   break;
-    case 1: out = 2;   break;
-    case 2: out = 4;   break;
-    case 3: out = 8;   break;
-    case 4: out = 16;  break;
-    case 5: out = 32;  break;
-    case 6: out = 64;  break;
-    case 7: out = 128; break;
-  }
-  return out;
-}
+int8_t decode[7] = {1, 2, 4, 8, 16, 32, 64, 128};
 
 #ifdef __DEBUG__
 /*
