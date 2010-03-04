@@ -20,7 +20,7 @@ void init_ports(void);
 void init_timer(void);
 void next_step(void);
 void out(int8_t);
-int8_t decode[int8_t];
+static int8_t decode[8] = {1, 2, 4, 8, 16, 32, 64, 128};
 #ifdef __DEBUG
 void debug(int8_t);
 #endif
@@ -160,11 +160,6 @@ void out(int8_t current) {
     PORTA = PORTB = PORTC = PORTD = 0x00;
   }
 }
-
-/*
- * This just makes 2 ^ as matching array
- */
-int8_t decode[7] = {1, 2, 4, 8, 16, 32, 64, 128};
 
 #ifdef __DEBUG__
 /*
